@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
 
 import { AppointmentsPage } from "./containers/appointmentsPage/AppointmentsPage";
 import { ContactsPage } from "./containers/contactsPage/ContactsPage";
@@ -21,31 +21,25 @@ function App() {
   */
 
   return (
-    <>
+    <Router>
       <nav>
-        <NavLink to={ROUTES.CONTACTS} activeClassName="active">
+        <NavLink to={ROUTES.CONTACTS} className={nav => nav.isActive ? "active" : ""}>
           Contacts
         </NavLink>
-        <NavLink to={ROUTES.APPOINTMENTS} activeClassName="active">
+        <NavLink to={ROUTES.APPOINTMENTS} className={nav => nav.isActive ? "active" : ""}>
           Appointments
         </NavLink>
       </nav>
       <main>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to={ROUTES.CONTACTS} />
-          </Route>
-          <Route path={ROUTES.CONTACTS}>
+        <Routes>
+          <Route path={ROUTES.CONTACTS} element={<ContactsPage />}/>
              {/* Add props to ContactsPage */}
-            <ContactsPage />
-          </Route>
-          <Route path={ROUTES.APPOINTMENTS}>
+          <Route path={ROUTES.APPOINTMENTS} element={<AppointmentsPage />}/>
             {/* Add props to AppointmentsPage */}
-            <AppointmentsPage />
-          </Route>
-        </Switch>
+          <Route path="/" element={<Navigate replace to={ROUTES.CONTACTS} />}/>
+        </Routes>
       </main>
-    </>
+    </Router>
   );
 }
 
