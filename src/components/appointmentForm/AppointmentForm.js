@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DatePicker from 'react-date-picker';
 
 const AppointmentForm = ({ appointments, contacts, addAppointment, setErrorMsg }) => {
 
@@ -11,9 +12,10 @@ const AppointmentForm = ({ appointments, contacts, addAppointment, setErrorMsg }
 
   const resetApptForm = () => {
     setAppointmentInfo({ 
-      name: "", 
-      phoneNumber: "", 
-      email: ""
+      title: "",
+      contact: {},
+      date: "",
+      time: ""
     })
   }
 
@@ -72,7 +74,7 @@ const AppointmentForm = ({ appointments, contacts, addAppointment, setErrorMsg }
           className=""
           type="text"
           name="date"
-          value={getTodayString()}
+          defaultValue={getTodayString()}
           onChange={handleAppointmentChange}
           />
       </label> <br />
