@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
 
-import { AppointmentsPage } from "./containers/appointmentsPage/AppointmentsPage";
-import { ContactsPage } from "./containers/contactsPage/ContactsPage";
+import AppointmentsPage from "./containers/appointmentsPage/AppointmentsPage";
+import ContactsPage from "./containers/contactsPage/ContactsPage";
 
 function App() {
   /*
   Define state variables for 
   contacts and appointments 
   */
+  const [errorMsg, setErrorMsg] = useState("");
+ 
+  const [contacts, setContacts] = useState([]);
+
+  const addContact = (newContact) => {
+    setContacts([
+      ...contacts, 
+      newContact
+    ])
+  }
+
+  const [appointments, setAppointments] = useState([]);
+
+  const addAppointment = (newAppointment) => {
+    setAppointments([
+      ...appointments,
+      newAppointment
+    ])
+  }
 
   const ROUTES = {
     CONTACTS: "/contacts",
@@ -19,6 +38,8 @@ function App() {
   Implement functions to add data to
   contacts and appointments
   */
+  
+
 
   return (
     <Router>
@@ -32,9 +53,28 @@ function App() {
       </nav>
       <main>
         <Routes>
-          <Route path={ROUTES.CONTACTS} element={<ContactsPage />}/>
+          <Route 
+            path={ROUTES.CONTACTS} 
+            element={
+              <ContactsPage 
+                contacts={contacts}
+                addContact={addContact}
+                setErrorMsg={setErrorMsg}
+                errorMsg={errorMsg}
+              />}
+            />
              {/* Add props to ContactsPage */}
-          <Route path={ROUTES.APPOINTMENTS} element={<AppointmentsPage />}/>
+          <Route 
+            path={ROUTES.APPOINTMENTS} 
+            element={
+              <AppointmentsPage 
+                appointments={appointments}
+                contacts={contacts}
+                addAppointment={addAppointment}
+                setErrorMsg={setErrorMsg}
+                errorMsg={errorMsg}
+              />}
+            />
             {/* Add props to AppointmentsPage */}
           <Route path="/" element={<Navigate replace to={ROUTES.CONTACTS} />}/>
         </Routes>
